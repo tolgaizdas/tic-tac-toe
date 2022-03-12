@@ -184,7 +184,8 @@ public class Game extends JFrame {
     private void setTheme(String theme) {
         Color gridBgColor = theme.equals("dark") ? Color.BLACK : Color.WHITE;
         Color settingBgColor = theme.equals("dark") ? Color.DARK_GRAY : Color.GRAY;
-        Color fgColor = theme.equals("dark") ? Color.WHITE : Color.BLACK;
+        // Color fgColor = theme.equals("dark") ? Color.WHITE : Color.BLACK;
+        Color fgColor = Color.WHITE;
 
         this.theme = theme.equals("dark") ? "dark" : "light";
         this.settingButtons[0].setText( // themeButton
