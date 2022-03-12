@@ -11,7 +11,7 @@ public class Game extends JFrame {
 
     private String winner;
     private String theme = "dark";
-    private int click;
+    private int clicks;
     private boolean isOver;
 
     private final Locale gameLocale = new Locale("en");
@@ -42,7 +42,7 @@ public class Game extends JFrame {
             }
         }
 
-        this.click = 0;
+        this.clicks = 0;
         this.isOver = false;
         this.winner = null;
 
@@ -92,11 +92,13 @@ public class Game extends JFrame {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    button.setText((click % 2 == 0) ? "X" : "O");
+                    button.setText((clicks % 2 == 0) ? "X" : "O");
+                    clicks++;
                     if (checkGame()) {
                         disableAllGridButtons();
                         restartButton
-                                .setText(("game is over! winner is " + winner + "!").toUpperCase(gameLocale));
+                                .setText(("game is over! " + ((winner != null) ? "winner is " + winner + "!"
+                                        : "draw!")).toUpperCase(gameLocale));
                         // JOptionPane.showMessageDialog(null, "Game is over! Winner is: " + winner,
                         // "GAME OVER",
                         // JOptionPane.INFORMATION_MESSAGE);
@@ -110,7 +112,6 @@ public class Game extends JFrame {
                         delay.start();
                     }
                     button.setEnabled(false);
-                    click++;
                 }
             });
             grid.add(button);
@@ -162,6 +163,11 @@ public class Game extends JFrame {
             this.winner = this.gridButtons[0][2].getText();
             this.isOver = true;
             return this.isOver;
+        }
+
+        if (this.clicks == 9) {
+            this.isOver = true;
+            return true;
         }
 
         return false;
