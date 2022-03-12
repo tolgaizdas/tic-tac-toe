@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
@@ -53,7 +55,8 @@ public class Game extends JFrame {
     }
 
     private void addButtons() {
-        JButton themeButton = new JButton("light mode".toUpperCase(gameLocale));
+        UIManager.put("Button.disabledText", new ColorUIResource(Color.WHITE));
+        JButton themeButton = new JButton("dark mode".toUpperCase(gameLocale));
         themeButton.setBackground(Color.DARK_GRAY);
         themeButton.setForeground(Color.WHITE);
         themeButton.setFont(new Font("Arial", Font.BOLD, 20));
@@ -62,6 +65,8 @@ public class Game extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (theme.equals("dark")) {
                     setTheme("light");
+                } else if (theme.equals("light")) {
+                    setTheme("color");
                 } else {
                     setTheme("dark");
                 }
@@ -87,12 +92,18 @@ public class Game extends JFrame {
         for (int i = 0, row = 0, col = 0; i < 9; i++) {
             JButton button = new JButton();
             button.setBackground(Color.BLACK);
-            button.setForeground(Color.WHITE);
+            button.setForeground(this.theme.equals("color") ? Color.DARK_GRAY : Color.WHITE);
             button.setFont(new Font("Arial", Font.BOLD, 40));
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     button.setText((clicks % 2 == 0) ? "X" : "O");
+                    if (theme.equals("color"))
+                        button.setBackground(button.getText().equals("X") ? Color.ORANGE : Color.PINK);
+                    // if (theme.equals("dark"))
+                    // button.setBackground((clicks % 2 == 0) ? Color.BLUE : Color.GREEN);
+                    // else
+                    // button.setBackground((clicks % 2 == 0) ? Color.ORANGE : Color.CYAN);
                     clicks++;
                     if (checkGame()) {
                         disableAllGridButtons();
@@ -182,6 +193,26 @@ public class Game extends JFrame {
     }
 
     private void setTheme(String theme) {
+        UIManager.put("Button.disabledText",
+                new ColorUIResource(theme.equals("dark") ? Color.WHITE : Color.DARK_GRAY));
+
+        if (theme.equals("color")) {
+            this.theme = "color";
+            this.settingButtons[0].setText("color mode".toUpperCase(gameLocale));
+            for (JButton[] jgridButtons : this.gridButtons) {
+                for (JButton jButton : jgridButtons) {
+                    if (jButton.getText().equals("X"))
+                        jButton.setBackground(Color.ORANGE);
+                    else if (jButton.getText().equals("O"))
+                        jButton.setBackground(Color.PINK);
+                    else
+                        jButton.setBackground(Color.WHITE);
+                    jButton.setForeground(Color.DARK_GRAY);
+                }
+            }
+            return;
+        }
+
         Color gridBgColor = theme.equals("dark") ? Color.BLACK : Color.WHITE;
         Color settingBgColor = theme.equals("dark") ? Color.DARK_GRAY : Color.GRAY;
         // Color fgColor = theme.equals("dark") ? Color.WHITE : Color.BLACK;
@@ -189,7 +220,7 @@ public class Game extends JFrame {
 
         this.theme = theme.equals("dark") ? "dark" : "light";
         this.settingButtons[0].setText( // themeButton
-                theme.equals("dark") ? "light mode".toUpperCase(gameLocale) : "dark mode".toUpperCase(gameLocale));
+                (theme + " mode").toUpperCase(gameLocale));
 
         for (JButton[] jgridButtons : this.gridButtons) {
             for (JButton jButton : jgridButtons) {
