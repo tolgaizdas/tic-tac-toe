@@ -56,7 +56,7 @@ public class Game extends JFrame {
         JButton themeButton = new JButton("light mode".toUpperCase(gameLocale));
         themeButton.setBackground(Color.DARK_GRAY);
         themeButton.setForeground(Color.WHITE);
-        themeButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        themeButton.setFont(new Font("Arial", Font.BOLD, 20));
         themeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +72,7 @@ public class Game extends JFrame {
         JButton restartButton = new JButton("restart".toUpperCase(gameLocale));
         restartButton.setBackground(Color.DARK_GRAY);
         restartButton.setForeground(Color.WHITE);
-        restartButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        restartButton.setFont(new Font("Arial", Font.BOLD, 20));
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,7 +88,7 @@ public class Game extends JFrame {
             JButton button = new JButton();
             button.setBackground(Color.BLACK);
             button.setForeground(Color.WHITE);
-            button.setFont(new Font("Arial", Font.PLAIN, 40));
+            button.setFont(new Font("Arial", Font.BOLD, 40));
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
